@@ -1,7 +1,7 @@
-import React from "react";
-import Input from "@/shared/components/Input";
-import Button from "@/shared/components/Button";
 import { LuMousePointerClick } from "react-icons/lu";
+
+import Button from "@/shared/components/Button";
+import Input from "@/shared/components/Input";
 
 function MainPage() {
   return (
