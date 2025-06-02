@@ -50,6 +50,7 @@ module.exports = {
       "error",
       {
         endOfLine: "lf",
+        useTabs: false,
       },
     ],
     "import/extensions": [
