@@ -21,12 +21,11 @@ function MainPage() {
       </div>
       <div className="flex gap-3 w-full">
         <Input
-          type="email"
           value="youtube url"
-          onChange="test"
-          placeholder="이메일을 입력하세요"
+          onChange={() => {}}
+          placeholder="유튜브 링크를 입력하세요"
         />
-        <Button children="제출" onClick="테스트" />
+        <Button onClick={() => {}}>제출</Button>
       </div>
     </div>
   );
