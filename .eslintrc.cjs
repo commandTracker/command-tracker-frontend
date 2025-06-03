@@ -18,6 +18,7 @@ module.exports = {
     },
   },
   rules: {
+    "no-unused-vars": "warn",
     "no-console": "error",
     "import/order": [
       "error",
