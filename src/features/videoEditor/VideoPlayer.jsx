@@ -1,6 +1,6 @@
-import { forwardRef } from "react";
-import ReactPlayer from "react-player";
 import PropTypes from "prop-types";
+import ReactPlayer from "react-player";
+import { forwardRef } from "react";
 
 const VideoPlayer = forwardRef(function VideoPlayer(
   { url, playing, onDuration, onProgress, onPlay, onPause },
