@@ -1,10 +1,11 @@
+import { forwardRef } from "react";
+
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
-import { forwardRef } from "react";
 
 const VideoPlayer = forwardRef(function VideoPlayer(
   { url, playing, onDuration, onProgress, onPlay, onPause },
-  ref
+  ref,
 ) {
   return (
     <ReactPlayer
