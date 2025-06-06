@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const useVideoEditor = (videoSrc, message) => {
+const useVideoEditor = (videoSrc) => {
   const [trim, setTrim] = useState([0, 0]);
   const [duration, setDuration] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -17,13 +17,12 @@ const useVideoEditor = (videoSrc, message) => {
 
     setTrim(newTrim);
     if (playerRef.current) {
-      if (prevStart !== newStart) {
+      if (newStart !== prevStart) {
         playerRef.current.seekTo(newStart, "seconds");
-        setPlaying(false);
-      } else if (prevEnd !== newEnd) {
+      } else if (newEnd !== prevEnd) {
         playerRef.current.seekTo(newEnd, "seconds");
-        setPlaying(false);
       }
+      setPlaying(false);
     }
   };
 
@@ -31,25 +30,23 @@ const useVideoEditor = (videoSrc, message) => {
     const [start, end] = trim;
     const currentTime = state.playedSeconds;
 
-    if (currentTime < start) {
+    if (currentTime < start || currentTime > end) {
       playerRef.current.seekTo(start, "seconds");
-      return;
-    }
-
-    if (currentTime >= end) {
       setPlaying(false);
-      setTimeout(() => {
-        playerRef.current?.seekTo(start, "seconds");
-      }, 100);
     }
   };
 
   const handlePlay = () => {
-    const [start] = trim;
+    const [start, end] = trim;
     if (playerRef.current) {
-      playerRef.current.seekTo(start, "seconds");
+      const currentTime = playerRef.current.getCurrentTime();
+      if (currentTime >= start && currentTime <= end) {
+        setPlaying(true);
+      } else {
+        playerRef.current.seekTo(start, "seconds");
+        setPlaying(true);
+      }
     }
-    setPlaying(true);
   };
 
   const handlePause = () => {
@@ -71,7 +68,7 @@ const useVideoEditor = (videoSrc, message) => {
       });
       if (!response.ok) throw new Error("편집 요청 실패");
     } catch (error) {
-      message.error("편집 요청 중 오류 발생");
+      alert("편집 요청 중 오류 발생");
     }
   };
 
