@@ -1,4 +1,3 @@
-import { message } from "antd";
 import PropTypes from "prop-types";
 
 import Button from "@/shared/components/Button";
@@ -19,7 +18,7 @@ function VideoEditor({ videoSrc }) {
     handleTrimChange,
     handleProgress,
     handleEdit,
-  } = useVideoEditor(videoSrc, message);
+  } = useVideoEditor(videoSrc);
 
   return (
     <div>
