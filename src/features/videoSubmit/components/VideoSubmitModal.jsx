@@ -15,7 +15,7 @@ function VideoSubmitModal() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     if (step === 2) {
       try {
         const response = await fetch("http://localhost:3000/api/submit", {
@@ -41,9 +41,9 @@ function VideoSubmitModal() {
         alert("제출에 실패했습니다!");
       }
     }
-  }
+  };
 
-  function handleButtonClick() {
+  const handleButtonClick = () => {
     if (step === 1) {
       if (!selectedCharacter) {
         alert("캐릭터를 선택해주세요!");
@@ -57,16 +57,16 @@ function VideoSubmitModal() {
       }
       handleSubmit();
     }
-  }
+  };
 
-  function handleSuccessModalClose() {
+  const handleSuccessModalClose = () => {
     setIsSuccessModalOpen(false);
     navigate("/");
-  }
+  };
 
-  function goToPreviousStep() {
+  const goToPreviousStep = () => {
     setStep(1);
-  }
+  };
 
   return (
     <>

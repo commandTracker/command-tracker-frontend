@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
 
-function CharacterSelectFrom({ selectedCharacter, onCharacterSelect }) {
+function CharacterSelectForm({ selectedCharacter, onCharacterSelect }) {
+  const baseButtonClass =
+    "border-none focus:outline-none px-4 py-2 rounded-md transition-colors";
+
+  const getButtonClass = (character) => `
+    ${baseButtonClass}
+    ${selectedCharacter === character ? "bg-blue-50 text-blue-500 font-bold" : "bg-white text-gray-600"}
+  `;
   return (
     <>
       <div className="text-2xl mb-8 font-mediumm">
@@ -12,8 +19,7 @@ function CharacterSelectFrom({ selectedCharacter, onCharacterSelect }) {
           onClick={() => {
             onCharacterSelect("left");
           }}
-          className={`border-none focus:outline-none px-4 py-2 rounded-md transition-colors
-          ${selectedCharacter === "left" ? "bg-blue-50 text-blue-500 font-bold" : "bg-white text-gray-600"}`}
+          className={getButtonClass("left")}
         >
           왼쪽 캐릭터
         </button>
@@ -23,8 +29,7 @@ function CharacterSelectFrom({ selectedCharacter, onCharacterSelect }) {
           onClick={() => {
             onCharacterSelect("right");
           }}
-          className={`border-none focus:outline-none px-4 py-2 rounded-md transition-colors
-          ${selectedCharacter === "right" ? "bg-blue-50 text-blue-500 font-bold" : "bg-white text-gray-600"}`}
+          className={getButtonClass("right")}
         >
           오른쪽 캐릭터
         </button>
@@ -33,9 +38,9 @@ function CharacterSelectFrom({ selectedCharacter, onCharacterSelect }) {
   );
 }
 
-CharacterSelectFrom.propTypes = {
+CharacterSelectForm.propTypes = {
   selectedCharacter: PropTypes.string.isRequired,
   onCharacterSelect: PropTypes.func.isRequired,
 };
 
-export default CharacterSelectFrom;
+export default CharacterSelectForm;
