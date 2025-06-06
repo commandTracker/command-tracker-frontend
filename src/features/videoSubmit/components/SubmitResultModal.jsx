@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import Modal from "@/shared/components/Modal";
 
-function SubmitResultModal({ onClick }) {
+const SubmitResultModal = ({ onClick }) => {
   return (
     <Modal onClick={onClick} buttonText="확인">
       <div className="text-xl mb-4 font-mediumm">제출이 완료되었습니다</div>
@@ -11,7 +11,7 @@ function SubmitResultModal({ onClick }) {
       </p>
     </Modal>
   );
-}
+};
 
 SubmitResultModal.propTypes = {
   onClick: PropTypes.func.isRequired,

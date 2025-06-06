@@ -3,7 +3,7 @@ import { GrFormPreviousLink } from "react-icons/gr";
 
 import Input from "@/shared/components/Input";
 
-function EmailInputForm({ email, onEmailChange, goToPreviousStep }) {
+const EmailInputForm = ({ email, onEmailChange, goToPreviousStep }) => {
   return (
     <div>
       <GrFormPreviousLink
@@ -26,7 +26,7 @@ function EmailInputForm({ email, onEmailChange, goToPreviousStep }) {
       </div>
     </div>
   );
-}
+};
 
 EmailInputForm.propTypes = {
   email: PropTypes.string.isRequired,

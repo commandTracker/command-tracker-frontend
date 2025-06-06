@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function CharacterSelectForm({ selectedCharacter, onCharacterSelect }) {
+const CharacterSelectForm = ({ selectedCharacter, onCharacterSelect }) => {
   const baseButtonClass =
     "border-none focus:outline-none px-4 py-2 rounded-md transition-colors";
 
@@ -36,7 +36,7 @@ function CharacterSelectForm({ selectedCharacter, onCharacterSelect }) {
       </div>
     </>
   );
-}
+};
 
 CharacterSelectForm.propTypes = {
   selectedCharacter: PropTypes.string.isRequired,

@@ -8,7 +8,7 @@ import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-function VideoSubmitModal() {
+const VideoSubmitModal = () => {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
@@ -92,6 +92,6 @@ function VideoSubmitModal() {
       )}
     </>
   );
-}
+};
 
 export default VideoSubmitModal;
