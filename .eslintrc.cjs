@@ -18,6 +18,7 @@ module.exports = {
     },
   },
   rules: {
+    "react/jsx-no-bind": "off",
     "no-console": "error",
     "import/order": [
       "error",
