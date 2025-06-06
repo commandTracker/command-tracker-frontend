@@ -1,7 +1,7 @@
 import { Slider } from "antd";
 import PropTypes from "prop-types";
 
-function TrimSlider({ trim, duration, onChange }) {
+const TrimSlider = ({ trim, duration, onChange }) => {
   return (
     <Slider
       range
@@ -12,7 +12,7 @@ function TrimSlider({ trim, duration, onChange }) {
       disabled={duration === 0}
     />
   );
-}
+};
 
 TrimSlider.propTypes = {
   trim: PropTypes.arrayOf(PropTypes.number).isRequired,

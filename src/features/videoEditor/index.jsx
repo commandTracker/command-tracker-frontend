@@ -6,7 +6,7 @@ import TrimSlider from "./TrimSlider";
 import useVideoEditor from "./useVideoEditor";
 import VideoPlayer from "./VideoPlayer";
 
-function VideoEditor({ videoSrc }) {
+const VideoEditor = ({ videoSrc }) => {
   const {
     trim,
     duration,
@@ -35,7 +35,7 @@ function VideoEditor({ videoSrc }) {
       <Button onClick={handleEdit}>편집 요청</Button>
     </div>
   );
-}
+};
 
 VideoEditor.propTypes = {
   videoSrc: PropTypes.string.isRequired,
