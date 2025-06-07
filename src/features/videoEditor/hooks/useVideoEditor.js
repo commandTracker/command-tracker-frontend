@@ -5,6 +5,7 @@ const useVideoEditor = (videoSrc) => {
   const [duration, setDuration] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(null);
+  const [isDoneEdit, setIsDoneEdit] = useState(false);
   const playerRef = useRef(null);
 
   const handleDuration = (videoDuration) => {
@@ -59,26 +60,15 @@ const useVideoEditor = (videoSrc) => {
   };
 
   const handleEdit = async () => {
-    setError(null);
-
-    const [start, end] = trim;
-
-    if (start === end) {
-      return;
-    }
-
-    const editData = { trim, videoSrc };
-
     try {
-      const response = await fetch("http://localhost:3000/edit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editData),
-      });
+      setError(null);
+      const [start, end] = trim;
 
-      if (!response.ok) {
-        throw new Error("편집 요청 실패");
+      if (start === end) {
+        throw new Error("영상 편집점을 다시 확인해주세요!");
       }
+
+      setIsDoneEdit(true);
     } catch (err) {
       setError(err.message || "편집 요청 실패");
     }
@@ -90,7 +80,9 @@ const useVideoEditor = (videoSrc) => {
     playing,
     playerRef,
     error,
+    isDoneEdit,
     setError,
+    setIsDoneEdit,
     handlePlay,
     handlePause,
     handleDuration,
