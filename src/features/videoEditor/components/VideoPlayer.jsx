@@ -25,6 +25,12 @@ const VideoPlayer = ({
 };
 
 VideoPlayer.propTypes = {
+  ref: PropTypes.shape({
+    current: PropTypes.oneOfType([
+      PropTypes.instanceOf(ReactPlayer),
+      PropTypes.oneOf([null]),
+    ]),
+  }).isRequired,
   url: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   onDuration: PropTypes.func.isRequired,
