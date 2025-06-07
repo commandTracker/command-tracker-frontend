@@ -8,11 +8,12 @@ import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-const VideoSubmitModal = () => {
+function VideoSubmitModal() {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -37,25 +38,27 @@ const VideoSubmitModal = () => {
         setSelectedCharacter(null);
         setEmail("");
         setIsSuccessModalOpen(true);
-      } catch {
-        alert("제출에 실패했습니다!");
+      } catch (err) {
+        setError(err.message || "서버 요청 실패");
       }
     }
   };
 
   const handleButtonClick = () => {
-    if (step === 1) {
-      if (!selectedCharacter) {
-        alert("캐릭터를 선택해주세요!");
-        return;
+    try {
+      if (step === 1) {
+        if (!selectedCharacter) {
+          throw new Error("캐릭터를 선택해주세요");
+        }
+        setStep(2);
+      } else {
+        if (!email) {
+          throw new Error("이메일을 입력해주세요");
+        }
+        handleSubmit();
       }
-      setStep(2);
-    } else {
-      if (!email) {
-        alert("이메일을 입력해주세요!");
-        return;
-      }
-      handleSubmit();
+    } catch (err) {
+      setError(err.message || "서버 요청 실패");
     }
   };
 
@@ -66,6 +69,10 @@ const VideoSubmitModal = () => {
 
   const goToPreviousStep = () => {
     setStep(1);
+  };
+
+  const closeModal = () => {
+    setError(null);
   };
 
   return (
@@ -90,8 +97,13 @@ const VideoSubmitModal = () => {
       {isSuccessModalOpen && (
         <SubmitResultModal onClick={handleSuccessModalClose} />
       )}
+      {error && (
+        <Modal onClick={closeModal} buttonText="닫기">
+          <p className="text-red-600 mb-4">{error}</p>
+        </Modal>
+      )}
     </>
   );
-};
+}
 
 export default VideoSubmitModal;
