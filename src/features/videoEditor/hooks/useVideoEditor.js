@@ -17,6 +17,7 @@ const useVideoEditor = (videoSrc) => {
     const [prevStart, prevEnd] = trim;
 
     setTrim(newTrim);
+
     if (playerRef.current) {
       if (newStart !== prevStart) {
         playerRef.current.seekTo(newStart, "seconds");
@@ -39,12 +40,15 @@ const useVideoEditor = (videoSrc) => {
 
   const handlePlay = () => {
     const [start, end] = trim;
+
     if (playerRef.current) {
       const currentTime = playerRef.current.getCurrentTime();
+
       if (currentTime >= start && currentTime <= end) {
         setPlaying(true);
       } else {
         playerRef.current.seekTo(start, "seconds");
+
         setPlaying(true);
       }
     }
@@ -56,18 +60,22 @@ const useVideoEditor = (videoSrc) => {
 
   const handleEdit = async () => {
     setError(null);
+
     const [start, end] = trim;
+
     if (start === end) {
       return;
     }
 
     const editData = { trim, videoSrc };
+
     try {
       const response = await fetch("http://localhost:3000/edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editData),
       });
+
       if (!response.ok) {
         throw new Error("편집 요청 실패");
       }
