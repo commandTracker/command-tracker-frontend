@@ -12,35 +12,33 @@ function VideoSubmitModal() {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (step === 2) {
-      try {
-        const response = await fetch("http://localhost:3000/api/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            selectedCharacter,
-            email,
-          }),
-        });
+    try {
+      const response = await fetch("http://localhost:3000/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          selectedCharacter,
+          email,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error("서버 요청 실패");
-        }
-
-        setStep(1);
-        setSelectedCharacter(null);
-        setEmail("");
-        setIsSuccessModalOpen(true);
-      } catch (err) {
-        setError(err.message || "서버 요청 실패");
+      if (!response.ok) {
+        throw new Error("서버 요청 실패");
       }
+
+      setStep(1);
+      setSelectedCharacter(null);
+      setEmail("");
+      setIsSuccessSubmit(true);
+    } catch (err) {
+      setError(err.message || "서버 요청 실패");
     }
   };
 
@@ -63,7 +61,7 @@ function VideoSubmitModal() {
   };
 
   const handleSuccessModalClose = () => {
-    setIsSuccessModalOpen(false);
+    setIsSuccessSubmit(false);
     navigate("/");
   };
 
@@ -94,7 +92,7 @@ function VideoSubmitModal() {
           />
         )}
       </Modal>
-      {isSuccessModalOpen && (
+      {isSuccessSubmit && (
         <SubmitResultModal onClick={handleSuccessModalClose} />
       )}
       {error && (
