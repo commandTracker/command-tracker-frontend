@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
 
 import Button from "@/shared/components/Button";
+import Modal from "@/shared/components/Modal";
 
 import TrimSlider from "./TrimSlider";
 import useVideoEditor from "./useVideoEditor";
 import VideoPlayer from "./VideoPlayer";
 
-const VideoEditor = ({ videoSrc }) => {
+function VideoEditor({ videoSrc }) {
   const {
     trim,
     duration,
     playing,
     playerRef,
+    error,
+    setError,
     handlePlay,
     handlePause,
     handleDuration,
@@ -19,6 +22,10 @@ const VideoEditor = ({ videoSrc }) => {
     handleProgress,
     handleEdit,
   } = useVideoEditor(videoSrc);
+
+  const closeModal = () => {
+    setError(null);
+  };
 
   return (
     <div>
@@ -33,9 +40,14 @@ const VideoEditor = ({ videoSrc }) => {
       />
       <TrimSlider trim={trim} duration={duration} onChange={handleTrimChange} />
       <Button onClick={handleEdit}>편집 요청</Button>
+      {error && (
+        <Modal onClick={closeModal} buttonText="닫기">
+          <p className="text-red-600 mb-4">{error}</p>
+        </Modal>
+      )}
     </div>
   );
-};
+}
 
 VideoEditor.propTypes = {
   videoSrc: PropTypes.string.isRequired,

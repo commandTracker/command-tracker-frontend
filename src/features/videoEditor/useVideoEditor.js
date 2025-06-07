@@ -4,6 +4,7 @@ const useVideoEditor = (videoSrc) => {
   const [trim, setTrim] = useState([0, 0]);
   const [duration, setDuration] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [error, setError] = useState(null);
   const playerRef = useRef(null);
 
   const handleDuration = (videoDuration) => {
@@ -54,6 +55,7 @@ const useVideoEditor = (videoSrc) => {
   };
 
   const handleEdit = async () => {
+    setError(null);
     const [start, end] = trim;
     if (start === end) {
       return;
@@ -66,9 +68,11 @@ const useVideoEditor = (videoSrc) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editData),
       });
-      if (!response.ok) throw new Error("편집 요청 실패");
-    } catch (error) {
-      alert("편집 요청 중 오류 발생");
+      if (!response.ok) {
+        throw new Error("편집 요청 실패");
+      }
+    } catch (err) {
+      setError(err.message || "편집 요청 실패");
     }
   };
 
@@ -77,6 +81,8 @@ const useVideoEditor = (videoSrc) => {
     duration,
     playing,
     playerRef,
+    error,
+    setError,
     handlePlay,
     handlePause,
     handleDuration,
