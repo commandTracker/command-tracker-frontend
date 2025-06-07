@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import Button from "@/shared/components/Button";
 import Modal from "@/shared/components/Modal";
 
-import TrimSlider from "./TrimSlider";
-import useVideoEditor from "./useVideoEditor";
-import VideoPlayer from "./VideoPlayer";
+import TrimSlider from "./components/TrimSlider";
+import VideoPlayer from "./components/VideoPlayer";
+import useVideoEditor from "./hooks/useVideoEditor";
 
-function VideoEditor({ videoSrc }) {
+const VideoEditor = ({ videoSrc }) => {
   const {
     trim,
     duration,
@@ -28,7 +28,7 @@ function VideoEditor({ videoSrc }) {
   };
 
   return (
-    <div>
+    <>
       <VideoPlayer
         ref={playerRef}
         url={videoSrc}
@@ -45,9 +45,9 @@ function VideoEditor({ videoSrc }) {
           <p className="text-red-600 mb-4">{error}</p>
         </Modal>
       )}
-    </div>
+    </>
   );
-}
+};
 
 VideoEditor.propTypes = {
   videoSrc: PropTypes.string.isRequired,
