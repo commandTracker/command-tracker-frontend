@@ -12,7 +12,7 @@ import ErrorModal from "@/shared/components/ErrorModal";
 const VideoEditor = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { videoSrc } = location.state || {};
+  const { videoSrc, videoId } = location.state || {};
 
   const {
     trim,
@@ -39,14 +39,14 @@ const VideoEditor = () => {
   };
 
   useEffect(() => {
-    if (!videoSrc) {
+    if (!videoSrc || !videoId) {
       setError("영상을 불러올 수 없습니다. 다시 시도해주세요.");
     }
-  }, [videoSrc]);
+  }, [videoSrc, videoId]);
 
   return (
     <>
-      {videoSrc && (
+      {videoSrc && videoId && (
         <>
           <VideoPlayer
             ref={playerRef}
@@ -63,7 +63,7 @@ const VideoEditor = () => {
             onChange={handleTrimChange}
           />
           <Button onClick={handleEdit}>편집 요청</Button>
-          {isDoneEdit && <VideoSubmitModal />}
+          {isDoneEdit && <VideoSubmitModal videoId={videoId} trim={trim} />}
         </>
       )}
       {error && <ErrorModal onClick={closeModal} message={error} />}
