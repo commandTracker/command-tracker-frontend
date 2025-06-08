@@ -1,14 +1,17 @@
 import { useState } from "react";
 
+import axios from "axios";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
+import ErrorModal from "@/shared/components/ErrorModal";
 import Modal from "@/shared/components/Modal";
 
 import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-function VideoSubmitModal() {
+function VideoSubmitModal({ videoId, trim }) {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
@@ -18,30 +21,28 @@ function VideoSubmitModal() {
 
   const handleSubmit = async () => {
     try {
-      if (!email) {
+      if (email.trim() === "") {
         throw new Error("이메일을 입력해주세요");
       }
-      const response = await fetch("http://localhost:3000/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          selectedCharacter,
-          email,
-        }),
-      });
 
-      if (!response.ok) {
-        throw new Error("서버 요청 실패");
+      if (!videoId) {
+        throw new Error("비디오 ID가 없습니다.");
       }
+
+      await axios.post("/api/edit", {
+        tirmStart: trim[0],
+        trimEnd: trim[1],
+        videoId,
+        selectedCharacter,
+        email,
+      });
 
       setStep(1);
       setSelectedCharacter(null);
       setEmail("");
       setIsSubmitSuccess(true);
     } catch (err) {
-      setError(err.message || "서버 요청 실패");
+      setError(err.response?.data?.message || err.message);
     }
   };
 
@@ -50,6 +51,7 @@ function VideoSubmitModal() {
       if (!selectedCharacter) {
         throw new Error("캐릭터를 선택해주세요");
       }
+
       setStep(2);
     } catch (err) {
       setError(err.message);
@@ -91,13 +93,14 @@ function VideoSubmitModal() {
       {isSubmitSuccess && (
         <SubmitResultModal onClick={handleSuccessModalClose} />
       )}
-      {error && (
-        <Modal onClick={closeModal} buttonText="닫기">
-          <p className="text-red-600 mb-4">{error}</p>
-        </Modal>
-      )}
+      {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );
 }
+
+VideoSubmitModal.propTypes = {
+  videoId: PropTypes.string.isRequired,
+  trim: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
 
 export default VideoSubmitModal;
