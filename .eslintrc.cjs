@@ -19,6 +19,8 @@ module.exports = {
   },
   rules: {
     "react/jsx-no-bind": "off",
+    "react/function-component-definition": "off",
+    "no-unused-vars": "warn",
     "no-console": "error",
     "import/order": [
       "error",
