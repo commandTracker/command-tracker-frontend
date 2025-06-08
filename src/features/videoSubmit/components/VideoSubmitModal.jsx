@@ -18,6 +18,9 @@ function VideoSubmitModal() {
 
   const handleSubmit = async () => {
     try {
+      if (!email) {
+        throw new Error("이메일을 입력해주세요");
+      }
       const response = await fetch("http://localhost:3000/api/submit", {
         method: "POST",
         headers: {
@@ -42,21 +45,14 @@ function VideoSubmitModal() {
     }
   };
 
-  const handleButtonClick = () => {
+  const selectCharacter = () => {
     try {
-      if (step === 1) {
-        if (!selectedCharacter) {
-          throw new Error("캐릭터를 선택해주세요");
-        }
-        setStep(2);
-      } else {
-        if (!email) {
-          throw new Error("이메일을 입력해주세요");
-        }
-        handleSubmit();
+      if (!selectedCharacter) {
+        throw new Error("캐릭터를 선택해주세요");
       }
+      setStep(2);
     } catch (err) {
-      setError(err.message || "서버 요청 실패");
+      setError(err.message);
     }
   };
 
@@ -76,7 +72,7 @@ function VideoSubmitModal() {
   return (
     <>
       <Modal
-        onClick={handleButtonClick}
+        onClick={step === 1 ? selectCharacter : handleSubmit}
         buttonText={step === 1 ? "다음" : "제출"}
       >
         {step === 1 ? (
