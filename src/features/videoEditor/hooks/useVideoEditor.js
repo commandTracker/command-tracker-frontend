@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const useVideoEditor = (videoSrc) => {
+const useVideoEditor = () => {
   const [trim, setTrim] = useState([0, 0]);
   const [duration, setDuration] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -61,7 +61,6 @@ const useVideoEditor = (videoSrc) => {
 
   const handleEdit = async () => {
     try {
-      setError(null);
       const [start, end] = trim;
 
       if (start === end) {
