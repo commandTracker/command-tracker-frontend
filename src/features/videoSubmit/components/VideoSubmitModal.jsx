@@ -12,7 +12,7 @@ function VideoSubmitModal() {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
-  const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function VideoSubmitModal() {
       setStep(1);
       setSelectedCharacter(null);
       setEmail("");
-      setIsSuccessSubmit(true);
+      setIsSubmitSuccess(true);
     } catch (err) {
       setError(err.message || "서버 요청 실패");
     }
@@ -57,7 +57,7 @@ function VideoSubmitModal() {
   };
 
   const handleSuccessModalClose = () => {
-    setIsSuccessSubmit(false);
+    setIsSubmitSuccess(false);
     navigate("/");
   };
 
@@ -88,7 +88,7 @@ function VideoSubmitModal() {
           />
         )}
       </Modal>
-      {isSuccessSubmit && (
+      {isSubmitSuccess && (
         <SubmitResultModal onClick={handleSuccessModalClose} />
       )}
       {error && (
