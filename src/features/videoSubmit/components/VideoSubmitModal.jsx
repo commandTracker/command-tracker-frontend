@@ -11,7 +11,7 @@ import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-function VideoSubmitModal({ videoId, trim }) {
+const VideoSubmitModal = ({ videoId, trim }) => {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ function VideoSubmitModal({ videoId, trim }) {
       }
 
       await axios.post("/api/edit", {
-        tirmStart: trim[0],
+        trimStart: trim[0],
         trimEnd: trim[1],
         videoId,
         selectedCharacter,
@@ -96,7 +96,7 @@ function VideoSubmitModal({ videoId, trim }) {
       {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );
-}
+};
 
 VideoSubmitModal.propTypes = {
   videoId: PropTypes.string.isRequired,

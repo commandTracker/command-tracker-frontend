@@ -8,7 +8,7 @@ import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
 import Input from "@/shared/components/Input";
 
-function MainPage() {
+const MainPage = () => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -61,6 +61,6 @@ function MainPage() {
       {error && <ErrorModal onClick={() => setError("")} message={error} />}
     </div>
   );
-}
+};
 
 export default MainPage;

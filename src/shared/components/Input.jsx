@@ -4,7 +4,7 @@ const inputClass = `
   flex-grow border border-gray-500 rounded-md px-3 py-3 focus:outline-[#E08345]
 `;
 
-function Input({ type = "text", value, onChange, placeholder }) {
+const Input = ({ type = "text", value, onChange, placeholder }) => {
   return (
     <input
       type={type}
@@ -14,7 +14,7 @@ function Input({ type = "text", value, onChange, placeholder }) {
       className={inputClass}
     />
   );
-}
+};
 
 Input.propTypes = {
   type: PropTypes.string.isRequired,

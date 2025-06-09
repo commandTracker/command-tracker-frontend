@@ -8,7 +8,7 @@ const buttonClass = `
   transition-colors duration-200
 `;
 
-function Button({ children, onClick, disabled = false }) {
+const Button = ({ children, onClick, disabled = false }) => {
   return (
     <button
       type="button"
@@ -19,7 +19,7 @@ function Button({ children, onClick, disabled = false }) {
       {children}
     </button>
   );
-}
+};
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,

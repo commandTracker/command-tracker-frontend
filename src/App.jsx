@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "@/pages/MainPage";
 import VideoEditor from "@/pages/VideoEditor";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -13,6 +13,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
