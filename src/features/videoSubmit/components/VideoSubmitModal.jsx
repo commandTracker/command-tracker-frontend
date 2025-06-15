@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 import ErrorModal from "@/shared/components/ErrorModal";
+import LoadingModal from "@/shared/components/LoadingModal";
 import Modal from "@/shared/components/Modal";
 
 import CharacterSelectFrom from "./CharacterSelectForm";
@@ -17,6 +18,7 @@ const VideoSubmitModal = ({ videoId, trim }) => {
   const [email, setEmail] = useState("");
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -29,6 +31,8 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         throw new Error("비디오 ID가 없습니다.");
       }
 
+      setIsLoading(true);
+
       await axios.post("/api/edit", {
         trimStart: trim[0],
         trimEnd: trim[1],
@@ -37,11 +41,13 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         email,
       });
 
+      setIsLoading(false);
       setStep(1);
       setSelectedCharacter(null);
       setEmail("");
       setIsSubmitSuccess(true);
     } catch (err) {
+      setIsLoading(false);
       setError(err.response?.data?.message || err.message);
     }
   };
@@ -73,26 +79,29 @@ const VideoSubmitModal = ({ videoId, trim }) => {
 
   return (
     <>
-      <Modal
-        onClick={step === 1 ? selectCharacter : handleSubmit}
-        buttonText={step === 1 ? "다음" : "제출"}
-      >
-        {step === 1 ? (
-          <CharacterSelectFrom
-            selectedCharacter={selectedCharacter}
-            onCharacterSelect={setSelectedCharacter}
-          />
-        ) : (
-          <EmailInputForm
-            email={email}
-            onEmailChange={setEmail}
-            goToPreviousStep={goToPreviousStep}
-          />
-        )}
-      </Modal>
+      {!isSubmitSuccess && !error && (
+        <Modal
+          onClick={step === 1 ? selectCharacter : handleSubmit}
+          buttonText={step === 1 ? "다음" : "제출"}
+        >
+          {step === 1 ? (
+            <CharacterSelectFrom
+              selectedCharacter={selectedCharacter}
+              onCharacterSelect={setSelectedCharacter}
+            />
+          ) : (
+            <EmailInputForm
+              email={email}
+              onEmailChange={setEmail}
+              goToPreviousStep={goToPreviousStep}
+            />
+          )}
+        </Modal>
+      )}
       {isSubmitSuccess && (
         <SubmitResultModal onClick={handleSuccessModalClose} />
       )}
+      {isLoading && <LoadingModal />}
       {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );
