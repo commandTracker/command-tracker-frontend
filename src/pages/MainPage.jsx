@@ -9,10 +9,10 @@ import {
 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
+import StepCard from "@/features/userGuide/components/StepCard";
 import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
 import Input from "@/shared/components/Input";
-import StepCard from "@/shared/components/StepCard";
 
 const MainPage = () => {
   const [url, setUrl] = useState("");
