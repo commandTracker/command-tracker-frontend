@@ -14,6 +14,8 @@ const VideoPlayer = ({
     <ReactPlayer
       ref={ref}
       url={url}
+      width="1080px"
+      height="640px"
       controls
       playing={playing}
       onDuration={onDuration}
