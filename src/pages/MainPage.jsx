@@ -13,10 +13,12 @@ import StepCard from "@/features/userGuide/components/StepCard";
 import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
 import Input from "@/shared/components/Input";
+import LoadingModal from "@/shared/components/LoadingModal";
 
 const MainPage = () => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -25,8 +27,9 @@ const MainPage = () => {
         throw new Error("유튜브 링크를 입력해주세요.");
       }
 
+      setIsLoading(true);
       const response = await axios.post("/api/video", { youtubeUrl: url });
-
+      setIsLoading(false);
       setUrl("");
 
       navigate("/video_editor", {
@@ -37,6 +40,8 @@ const MainPage = () => {
       });
     } catch (err) {
       const message = err.response?.data?.message || err.message;
+
+      setIsLoading(false);
       setError(message);
     }
   };
@@ -62,6 +67,7 @@ const MainPage = () => {
         />
         <Button onClick={handleSubmit}>제출</Button>
       </div>
+      {isLoading && <LoadingModal />}
       {error && <ErrorModal onClick={() => setError("")} message={error} />}
       <section className="w-full max-w-2xl mt-16">
         <h2 className="text-xl font-semibold mb-6">사용 방법</h2>
