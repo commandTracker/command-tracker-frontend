@@ -9,13 +9,11 @@ import Modal from "@/shared/components/Modal";
 
 import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
-import SubmitResultModal from "./SubmitResultModal";
 
 const VideoSubmitModal = ({ videoId, trim }) => {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
-  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -37,10 +35,10 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         email,
       });
 
-      setStep(1);
       setSelectedCharacter(null);
       setEmail("");
-      setIsSubmitSuccess(true);
+
+      navigate("/submit_success", { state: { email, selectedCharacter } });
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     }
@@ -56,11 +54,6 @@ const VideoSubmitModal = ({ videoId, trim }) => {
     } catch (err) {
       setError(err.message);
     }
-  };
-
-  const handleSuccessModalClose = () => {
-    setIsSubmitSuccess(false);
-    navigate("/");
   };
 
   const goToPreviousStep = () => {
@@ -90,9 +83,6 @@ const VideoSubmitModal = ({ videoId, trim }) => {
           />
         )}
       </Modal>
-      {isSubmitSuccess && (
-        <SubmitResultModal onClick={handleSuccessModalClose} />
-      )}
       {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );
