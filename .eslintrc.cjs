@@ -18,7 +18,6 @@ module.exports = {
     },
   },
   rules: {
-    "no-irregular-whitespace": "off",
     "react/jsx-no-bind": "off",
     "react/function-component-definition": "off",
     "no-unused-vars": "warn",
