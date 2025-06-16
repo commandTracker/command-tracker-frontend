@@ -5,7 +5,7 @@ const CharacterGrid = ({ list }) => (
     {list.map(({ name, src }) => (
       <figure
         key={name}
-        className="flex flex-col items-center text-xs font-medium text-gray-700"
+        className={`flex flex-col items-center text-xs font-medium text-gray-700 ${name !== "MARISA" ? "opacity-50 grayscale" : ""}`}
       >
         <img
           src={src}
