@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
 import Input from "@/shared/components/Input";
+import LoadingModal from "@/shared/components/LoadingModal";
 
 const MainPage = () => {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -19,8 +21,9 @@ const MainPage = () => {
         throw new Error("유튜브 링크를 입력해주세요.");
       }
 
+      setIsLoading(true);
       const response = await axios.post("/api/video", { youtubeUrl: url });
-
+      setIsLoading(false);
       setUrl("");
       navigate("/video_editor", {
         state: {
@@ -30,7 +33,7 @@ const MainPage = () => {
       });
     } catch (err) {
       const message = err.response?.data?.message || err.message;
-
+      setIsLoading(false);
       setError(message);
     }
   };
@@ -58,6 +61,7 @@ const MainPage = () => {
         />
         <Button onClick={handleSubmit}>제출</Button>
       </div>
+      {isLoading && <LoadingModal />}
       {error && <ErrorModal onClick={() => setError("")} message={error} />}
     </div>
   );
