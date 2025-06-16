@@ -12,13 +12,13 @@ const TrimSlider = ({ width, duration, videoSrc, trim, onChange }) => {
   const count = Math.max(8, Math.ceil(width / THUMB_W));
 
   const formatTime = (sec) => {
-    const h = Math.floor(sec / 3600);
-    const m = Math.floor((sec % 3600) / 60);
-    const s = Math.floor(sec % 60);
+    const hour = Math.floor(sec / 3600);
+    const minutes = Math.floor((sec % 3600) / 60);
+    const seconds = Math.floor(sec % 60);
 
-    return h
-      ? `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
-      : `${m}:${s.toString().padStart(2, "0")}`;
+    return hour
+      ? `${hour}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      : `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   useEffect(() => {
@@ -30,18 +30,19 @@ const TrimSlider = ({ width, duration, videoSrc, trim, onChange }) => {
     video.crossOrigin = "anonymous";
     videoEl.current = video;
 
-    const grab = (t) => {
+    const grab = (time) => {
       return new Promise((res) => {
-        const c = document.createElement("canvas");
+        const canvas = document.createElement("canvas");
 
         const done = () => {
-          c.width = video.videoWidth;
-          c.height = video.videoHeight;
-          c.getContext("2d").drawImage(video, 0, 0);
-          return res(c.toDataURL("image/jpeg", 0.55));
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvas.getContext("2d").drawImage(video, 0, 0);
+
+          return res(canvas.toDataURL("image/jpeg", 0.55));
         };
 
-        video.currentTime = t;
+        video.currentTime = time;
         video.addEventListener("seeked", done, { once: true });
       });
     };
