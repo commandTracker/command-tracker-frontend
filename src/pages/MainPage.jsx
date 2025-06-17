@@ -9,11 +9,13 @@ import {
 } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
+import CharacterGrid from "@/features/Character/CharacterGrid";
 import StepCard from "@/features/userGuide/components/StepCard";
 import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
 import Input from "@/shared/components/Input";
 import LoadingModal from "@/shared/components/LoadingModal";
+import champions from "@/shared/data/champions";
 
 const MainPage = () => {
   const [url, setUrl] = useState("");
@@ -90,6 +92,10 @@ const MainPage = () => {
             desc="커맨드 추적 결과를 메일로 확인 할 수 있습니다."
           />
         </div>
+        <section className="w-full max-w-3xl mt-20">
+          <h2 className="text-xl font-semibold mb-6">챔피언 목록</h2>
+          <CharacterGrid list={champions} />
+        </section>
       </section>
     </div>
   );
