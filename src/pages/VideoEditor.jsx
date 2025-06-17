@@ -33,6 +33,7 @@ const VideoEditor = () => {
 
   const videoWrapperRef = useRef(null);
   const [playerWidth, setPlayerWidth] = useState(0);
+  const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (!videoWrapperRef.current) {
@@ -55,6 +56,7 @@ const VideoEditor = () => {
   }, [videoSrc, videoId]);
 
   const closeModal = () => {
+    setStep(1);
     setIsModalOpen(false);
   };
 
@@ -95,11 +97,15 @@ const VideoEditor = () => {
               trim={trim}
               closeModal={closeModal}
               setError={setError}
+              step={step}
+              setStep={setStep}
             />
           )}
         </div>
       )}
-      {error && <ErrorModal onClose={closeError} message={error} />}
+      {error && (
+        <ErrorModal onClose={closeError} onClick={closeError} message={error} />
+      )}
     </>
   );
 };

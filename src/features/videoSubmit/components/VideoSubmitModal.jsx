@@ -4,7 +4,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@/shared/components/Button";
 import LoadingModal from "@/shared/components/LoadingModal";
 import Modal from "@/shared/components/Modal";
 
@@ -12,8 +11,14 @@ import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-const VideoSubmitModal = ({ videoId, trim, closeModal, setError }) => {
-  const [step, setStep] = useState(1);
+const VideoSubmitModal = ({
+  videoId,
+  trim,
+  closeModal,
+  setError,
+  step,
+  setStep,
+}) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -74,7 +79,11 @@ const VideoSubmitModal = ({ videoId, trim, closeModal, setError }) => {
 
   return (
     <div>
-      <Modal onClose={closeModal}>
+      <Modal
+        onClose={closeModal}
+        onClick={step === 1 ? selectCharacter : handleSubmit}
+        buttonText={step === 1 ? "다음" : "제출"}
+      >
         {step === 1 ? (
           <CharacterSelectFrom
             selectedCharacter={selectedCharacter}
@@ -87,12 +96,12 @@ const VideoSubmitModal = ({ videoId, trim, closeModal, setError }) => {
             goToPreviousStep={goToPreviousStep}
           />
         )}
-        <Button onClick={step === 1 ? selectCharacter : handleSubmit}>
-          {step === 1 ? "다음" : "제출"}
-        </Button>
       </Modal>
       {isSubmitSuccess && (
-        <SubmitResultModal onClose={handleSuccessModalClose} />
+        <SubmitResultModal
+          onClose={handleSuccessModalClose}
+          onClick={handleSuccessModalClose}
+        />
       )}
       {isLoading && <LoadingModal />}
     </div>
@@ -104,6 +113,8 @@ VideoSubmitModal.propTypes = {
   trim: PropTypes.arrayOf(PropTypes.number).isRequired,
   closeModal: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
 };
 
 export default VideoSubmitModal;
