@@ -11,10 +11,10 @@ const EmailInputForm = ({ email, onEmailChange, goToPreviousStep }) => {
         onClick={goToPreviousStep}
         className="cursor-pointer absolute top-2 left-2"
       />
-      <div className="text-2xl mb-8 mt-4 font-mediumm">
+      <div className="text-2xl mb-6 mt-6 font-mediumm">
         결과를 받을 이메일을 입력하세요
       </div>
-      <div className="flex mb-8 text-[#515151]">
+      <div className="flex mb-6 text-[#515151]">
         <Input
           type="email"
           value={email}
