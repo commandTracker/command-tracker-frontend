@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 
 const CharacterGrid = ({ list }) => (
   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-    {list.map(({ name, src }) => (
+    {list.map(({ name, src, isSupported }) => (
       <figure
         key={name}
-        className={`flex flex-col items-center text-xs font-medium text-gray-700 ${name !== "MARISA" ? "opacity-50 grayscale" : ""}`}
+        className={`flex flex-col items-center text-xs font-medium text-gray-700 ${isSupported ? "none" : "opacity-50 grayscale"}`}
       >
         <img
           src={src}
