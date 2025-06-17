@@ -4,7 +4,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import ErrorModal from "@/shared/components/ErrorModal";
+import Button from "@/shared/components/Button";
 import LoadingModal from "@/shared/components/LoadingModal";
 import Modal from "@/shared/components/Modal";
 
@@ -12,12 +12,11 @@ import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 import SubmitResultModal from "./SubmitResultModal";
 
-const VideoSubmitModal = ({ videoId, trim }) => {
+const VideoSubmitModal = ({ videoId, trim, closeModal, setError }) => {
   const [step, setStep] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -73,43 +72,38 @@ const VideoSubmitModal = ({ videoId, trim }) => {
     setStep(1);
   };
 
-  const closeModal = () => {
-    setError(null);
-  };
-
   return (
-    <>
-      {!isSubmitSuccess && !error && (
-        <Modal
-          onClick={step === 1 ? selectCharacter : handleSubmit}
-          buttonText={step === 1 ? "다음" : "제출"}
-        >
-          {step === 1 ? (
-            <CharacterSelectFrom
-              selectedCharacter={selectedCharacter}
-              onCharacterSelect={setSelectedCharacter}
-            />
-          ) : (
-            <EmailInputForm
-              email={email}
-              onEmailChange={setEmail}
-              goToPreviousStep={goToPreviousStep}
-            />
-          )}
-        </Modal>
-      )}
+    <div>
+      <Modal onClose={closeModal}>
+        {step === 1 ? (
+          <CharacterSelectFrom
+            selectedCharacter={selectedCharacter}
+            onCharacterSelect={setSelectedCharacter}
+          />
+        ) : (
+          <EmailInputForm
+            email={email}
+            onEmailChange={setEmail}
+            goToPreviousStep={goToPreviousStep}
+          />
+        )}
+        <Button onClick={step === 1 ? selectCharacter : handleSubmit}>
+          {step === 1 ? "다음" : "제출"}
+        </Button>
+      </Modal>
       {isSubmitSuccess && (
-        <SubmitResultModal onClick={handleSuccessModalClose} />
+        <SubmitResultModal onClose={handleSuccessModalClose} />
       )}
       {isLoading && <LoadingModal />}
-      {error && <ErrorModal onClick={closeModal} message={error} />}
-    </>
+    </div>
   );
 };
 
 VideoSubmitModal.propTypes = {
   videoId: PropTypes.string.isRequired,
   trim: PropTypes.arrayOf(PropTypes.number).isRequired,
+  closeModal: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 export default VideoSubmitModal;
