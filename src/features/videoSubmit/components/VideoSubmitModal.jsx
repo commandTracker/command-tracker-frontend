@@ -36,11 +36,11 @@ const VideoSubmitModal = ({
       setIsLoading(true);
 
       await axios.post("/api/edit", {
+        videoId,
         trimStart: trim[0],
         trimEnd: trim[1],
-        videoId,
-        selectedCharacter,
         email,
+        selectedCharacter,
       });
 
       setIsLoading(false);
