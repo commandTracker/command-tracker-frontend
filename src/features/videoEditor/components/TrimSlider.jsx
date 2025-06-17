@@ -6,7 +6,14 @@ import PropTypes from "prop-types";
 const THUMB_W = 60;
 const THUMB_H = 60;
 
-const TrimSlider = ({ width, duration, videoSrc, trim, onChange }) => {
+const TrimSlider = ({
+  width,
+  duration,
+  videoSrc,
+  trim,
+  onChange,
+  setIsLoading,
+}) => {
   const [thumbs, setThumbs] = useState([]);
   const videoEl = useRef(null);
   const count = Math.max(8, Math.ceil(width / THUMB_W));
@@ -53,7 +60,7 @@ const TrimSlider = ({ width, duration, videoSrc, trim, onChange }) => {
       for (let i = 0; i < count; i += 1) {
         list.push(await grab((duration * i) / (count - 1)));
       }
-
+      setIsLoading(false);
       setThumbs(list);
     };
 
@@ -113,6 +120,7 @@ TrimSlider.propTypes = {
   videoSrc: PropTypes.string.isRequired,
   trim: PropTypes.arrayOf(PropTypes.number).isRequired,
   onChange: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 };
 
 export default TrimSlider;

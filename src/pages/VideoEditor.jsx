@@ -8,6 +8,7 @@ import useVideoEditor from "@/features/videoEditor/hooks/useVideoEditor";
 import VideoSubmitModal from "@/features/videoSubmit/components/VideoSubmitModal";
 import Button from "@/shared/components/Button";
 import ErrorModal from "@/shared/components/ErrorModal";
+import LoadingModal from "@/shared/components/LoadingModal";
 
 const VideoEditor = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const VideoEditor = () => {
   const videoWrapperRef = useRef(null);
   const [playerWidth, setPlayerWidth] = useState(0);
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!videoWrapperRef.current) {
@@ -88,6 +90,7 @@ const VideoEditor = () => {
               videoSrc={videoSrc}
               onChange={handleTrimChange}
               width={playerWidth}
+              setIsLoading={setIsLoading}
             />
             <Button onClick={handleEdit}>편집 요청</Button>
           </div>
@@ -103,6 +106,7 @@ const VideoEditor = () => {
           )}
         </div>
       )}
+      {isLoading && <LoadingModal />}
       {error && (
         <ErrorModal onClose={closeError} onClick={closeError} message={error} />
       )}
