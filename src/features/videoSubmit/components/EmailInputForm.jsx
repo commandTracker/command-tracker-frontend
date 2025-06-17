@@ -9,7 +9,7 @@ const EmailInputForm = ({ email, onEmailChange, goToPreviousStep }) => {
       <GrFormPreviousLink
         size="27"
         onClick={goToPreviousStep}
-        className="cursor-pointer"
+        className="cursor-pointer absolute top-2 left-2"
       />
       <div className="text-2xl mb-8 mt-4 font-mediumm">
         결과를 받을 이메일을 입력하세요
