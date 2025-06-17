@@ -4,18 +4,22 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import ErrorModal from "@/shared/components/ErrorModal";
 import LoadingModal from "@/shared/components/LoadingModal";
 import Modal from "@/shared/components/Modal";
 
 import CharacterSelectFrom from "./CharacterSelectForm";
 import EmailInputForm from "./EmailInputForm";
 
-const VideoSubmitModal = ({ videoId, trim }) => {
-  const [step, setStep] = useState(1);
+const VideoSubmitModal = ({
+  videoId,
+  trim,
+  closeModal,
+  setError,
+  step,
+  setStep,
+}) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -67,13 +71,10 @@ const VideoSubmitModal = ({ videoId, trim }) => {
     setStep(1);
   };
 
-  const closeModal = () => {
-    setError(null);
-  };
-
   return (
     <>
       <Modal
+        onClose={closeModal}
         onClick={step === 1 ? selectCharacter : handleSubmit}
         buttonText={step === 1 ? "다음" : "제출"}
       >
@@ -91,7 +92,6 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         )}
       </Modal>
       {isLoading && <LoadingModal />}
-      {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );
 };
@@ -99,6 +99,10 @@ const VideoSubmitModal = ({ videoId, trim }) => {
 VideoSubmitModal.propTypes = {
   videoId: PropTypes.string.isRequired,
   trim: PropTypes.arrayOf(PropTypes.number).isRequired,
+  closeModal: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+  setStep: PropTypes.func.isRequired,
 };
 
 export default VideoSubmitModal;

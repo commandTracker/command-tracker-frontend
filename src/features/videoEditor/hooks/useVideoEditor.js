@@ -5,7 +5,7 @@ const useVideoEditor = () => {
   const [duration, setDuration] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(null);
-  const [isDoneEdit, setIsDoneEdit] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const playerRef = useRef(null);
 
   const handleDuration = (videoDuration) => {
@@ -67,7 +67,7 @@ const useVideoEditor = () => {
         throw new Error("영상 편집점을 다시 확인해주세요!");
       }
 
-      setIsDoneEdit(true);
+      setIsModalOpen(true);
     } catch (err) {
       setError(err.message || "편집 요청 실패");
     }
@@ -79,9 +79,9 @@ const useVideoEditor = () => {
     playing,
     playerRef,
     error,
-    isDoneEdit,
+    isModalOpen,
+    setIsModalOpen,
     setError,
-    setIsDoneEdit,
     handlePlay,
     handlePause,
     handleDuration,
