@@ -70,7 +70,13 @@ const MainPage = () => {
         <Button onClick={handleSubmit}>제출</Button>
       </div>
       {isLoading && <LoadingModal />}
-      {error && <ErrorModal onClick={() => setError("")} message={error} />}
+      {error && (
+        <ErrorModal
+          onClose={() => setError("")}
+          onClick={() => setError("")}
+          message={error}
+        />
+      )}
       <section className="w-full max-w-2xl mt-16">
         <h2 className="text-xl font-semibold mb-6">사용 방법</h2>
         <div className="grid gap-4 sm:grid-cols-3">

@@ -20,7 +20,8 @@ const VideoEditor = () => {
     playing,
     playerRef,
     error,
-    isDoneEdit,
+    isModalOpen,
+    setIsModalOpen,
     setError,
     handlePlay,
     handlePause,
@@ -32,6 +33,7 @@ const VideoEditor = () => {
 
   const videoWrapperRef = useRef(null);
   const [playerWidth, setPlayerWidth] = useState(0);
+  const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (!videoWrapperRef.current) {
@@ -54,6 +56,11 @@ const VideoEditor = () => {
   }, [videoSrc, videoId]);
 
   const closeModal = () => {
+    setStep(1);
+    setIsModalOpen(false);
+  };
+
+  const closeError = () => {
     setError(null);
 
     if (!videoSrc) navigate("/");
@@ -62,30 +69,43 @@ const VideoEditor = () => {
   return (
     <>
       {videoSrc && videoId && (
-        <div className="w-full flex flex-col items-center space-y-6">
-          <div ref={videoWrapperRef} className="w-fit mx-auto">
-            <VideoPlayer
-              ref={playerRef}
-              url={videoSrc}
-              playing={playing}
-              onDuration={handleDuration}
-              onProgress={handleProgress}
-              onPlay={handlePlay}
-              onPause={handlePause}
+        <div className="w-full flex flex-col items-center">
+          <div className="space-y-6">
+            <div ref={videoWrapperRef} className="w-fit mx-auto">
+              <VideoPlayer
+                ref={playerRef}
+                url={videoSrc}
+                playing={playing}
+                onDuration={handleDuration}
+                onProgress={handleProgress}
+                onPlay={handlePlay}
+                onPause={handlePause}
+              />
+            </div>
+            <TrimSlider
+              trim={trim}
+              duration={duration}
+              videoSrc={videoSrc}
+              onChange={handleTrimChange}
+              width={playerWidth}
             />
+            <Button onClick={handleEdit}>편집 요청</Button>
           </div>
-          <TrimSlider
-            trim={trim}
-            duration={duration}
-            videoSrc={videoSrc}
-            onChange={handleTrimChange}
-            width={playerWidth}
-          />
-          <Button onClick={handleEdit}>편집 요청</Button>
-          {isDoneEdit && <VideoSubmitModal videoId={videoId} trim={trim} />}
+          {isModalOpen && !error && (
+            <VideoSubmitModal
+              videoId={videoId}
+              trim={trim}
+              closeModal={closeModal}
+              setError={setError}
+              step={step}
+              setStep={setStep}
+            />
+          )}
         </div>
       )}
-      {error && <ErrorModal onClick={closeModal} message={error} />}
+      {error && (
+        <ErrorModal onClose={closeError} onClick={closeError} message={error} />
+      )}
     </>
   );
 };
