@@ -2,16 +2,16 @@ import PropTypes from "prop-types";
 
 import Modal from "./Modal";
 
-const ErrorModal = ({ onClick, message }) => {
+const ErrorModal = ({ onClose, message }) => {
   return (
-    <Modal onClick={onClick} buttonText="닫기">
-      <p className="text-lg text-red-600 mb-4">{message}</p>
+    <Modal onClose={onClose}>
+      <p className="text-lg text-red-600">{message}</p>
     </Modal>
   );
 };
 
 ErrorModal.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
 };
 

@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
+import { IoCloseOutline } from "react-icons/io5";
 
-import Button from "./Button";
-
-const Modal = ({ children, onClick, buttonText }) => {
+const Modal = ({ children, onClose }) => {
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-slate-200 bg-opacity-50">
-      <div className="py-8 px-6 bg-white rounded-md">
+      <div className="py-8 px-6 bg-white rounded-md relative space-y-3">
+        <IoCloseOutline
+          className="absolute top-2 right-2 text-2xl cursor-pointer"
+          onClick={onClose}
+        />
         {children}
-        <Button onClick={onClick}>{buttonText}</Button>
       </div>
     </div>
   );
@@ -15,8 +17,7 @@ const Modal = ({ children, onClick, buttonText }) => {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
-  buttonText: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;
