@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 import ErrorModal from "@/shared/components/ErrorModal";
+import LoadingModal from "@/shared/components/LoadingModal";
 import Modal from "@/shared/components/Modal";
 
 import CharacterSelectFrom from "./CharacterSelectForm";
@@ -15,6 +16,7 @@ const VideoSubmitModal = ({ videoId, trim }) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -27,6 +29,8 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         throw new Error("비디오 ID가 없습니다.");
       }
 
+      setIsLoading(true);
+
       await axios.post("/api/edit", {
         trimStart: trim[0],
         trimEnd: trim[1],
@@ -35,11 +39,14 @@ const VideoSubmitModal = ({ videoId, trim }) => {
         email,
       });
 
+      setIsLoading(false);
+      setStep(1);
       setSelectedCharacter(null);
       setEmail("");
 
       navigate("/submit_success", { state: { email, selectedCharacter } });
     } catch (err) {
+      setIsLoading(false);
       setError(err.response?.data?.message || err.message);
     }
   };
@@ -83,6 +90,7 @@ const VideoSubmitModal = ({ videoId, trim }) => {
           />
         )}
       </Modal>
+      {isLoading && <LoadingModal />}
       {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
   );

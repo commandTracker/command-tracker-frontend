@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -30,13 +30,22 @@ const VideoEditor = () => {
     handleEdit,
   } = useVideoEditor();
 
-  const closeModal = () => {
-    setError(null);
+  const videoWrapperRef = useRef(null);
+  const [playerWidth, setPlayerWidth] = useState(0);
 
-    if (!videoSrc) {
-      navigate("/");
+  useEffect(() => {
+    if (!videoWrapperRef.current) {
+      return () => {};
     }
-  };
+
+    const obs = new ResizeObserver(([entry]) => {
+      return setPlayerWidth(entry.contentRect.width);
+    });
+
+    obs.observe(videoWrapperRef.current);
+
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!videoSrc || !videoId) {
@@ -44,27 +53,37 @@ const VideoEditor = () => {
     }
   }, [videoSrc, videoId]);
 
+  const closeModal = () => {
+    setError(null);
+
+    if (!videoSrc) navigate("/");
+  };
+
   return (
     <>
       {videoSrc && videoId && (
-        <>
-          <VideoPlayer
-            ref={playerRef}
-            url={videoSrc}
-            playing={playing}
-            onDuration={handleDuration}
-            onProgress={handleProgress}
-            onPlay={handlePlay}
-            onPause={handlePause}
-          />
+        <div className="w-full flex flex-col items-center space-y-6">
+          <div ref={videoWrapperRef} className="w-fit mx-auto">
+            <VideoPlayer
+              ref={playerRef}
+              url={videoSrc}
+              playing={playing}
+              onDuration={handleDuration}
+              onProgress={handleProgress}
+              onPlay={handlePlay}
+              onPause={handlePause}
+            />
+          </div>
           <TrimSlider
             trim={trim}
             duration={duration}
+            videoSrc={videoSrc}
             onChange={handleTrimChange}
+            width={playerWidth}
           />
           <Button onClick={handleEdit}>편집 요청</Button>
           {isDoneEdit && <VideoSubmitModal videoId={videoId} trim={trim} />}
-        </>
+        </div>
       )}
       {error && <ErrorModal onClick={closeModal} message={error} />}
     </>
