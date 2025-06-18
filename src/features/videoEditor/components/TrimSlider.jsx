@@ -60,8 +60,11 @@ const TrimSlider = ({
       for (let i = 0; i < count; i += 1) {
         list.push(await grab((duration * i) / (count - 1)));
       }
-      setIsLoading(false);
-      setThumbs(list);
+
+      if (list.length === count) {
+        setThumbs(list);
+        setIsLoading(false);
+      }
     };
 
     video.addEventListener("loadedmetadata", build, { once: true });
