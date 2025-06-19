@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Slider } from "antd";
 import PropTypes from "prop-types";
@@ -15,7 +15,6 @@ const TrimSlider = ({
   setIsLoading,
 }) => {
   const [thumbs, setThumbs] = useState([]);
-  const videoEl = useRef(null);
   const count = Math.max(8, Math.ceil(width / THUMB_W));
 
   const formatTime = (sec) => {
@@ -35,7 +34,6 @@ const TrimSlider = ({
     video.src = videoSrc;
     video.muted = true;
     video.crossOrigin = "anonymous";
-    videoEl.current = video;
 
     const grab = (time) => {
       return new Promise((res) => {
@@ -68,7 +66,7 @@ const TrimSlider = ({
     };
 
     video.addEventListener("loadedmetadata", build, { once: true });
-  }, [videoSrc, duration, width, count]);
+  }, [duration]);
 
   return (
     <div
